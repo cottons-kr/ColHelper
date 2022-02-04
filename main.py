@@ -3,7 +3,6 @@ import gzip
 from tkinter import messagebox
 import zlib
 import base64
-from matplotlib.pyplot import fill
 import xmltodict
 from tkinter import *
 import sys
