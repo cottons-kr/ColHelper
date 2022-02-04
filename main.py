@@ -1,13 +1,12 @@
-from asyncio import windows_utils
-from copyreg import constructor
 import os
 import gzip
 from tkinter import messagebox
-from turtle import width
 import zlib
 import base64
+from matplotlib.pyplot import fill
 import xmltodict
 from tkinter import *
+import sys
 
 def read_file(path: str) -> str:
     fr = open(path, 'rb')
@@ -139,12 +138,18 @@ def print_txt():
     okBtn = Button(listPopup, width=10, text="확인", overrelief="solid", command=getn1)
     titleLabel.pack()
     inputBox = Entry(listPopup, width=10)
+
+    frame = Frame(listPopup)
+    scroll = Scrollbar(frame)
+    scroll.pack(side="right", fill="both")
+    levelList = Listbox(listPopup, yscrollcommand=scroll.set, )
     for a in range(len(levels)):
         b = 0
         if ',' in levels[a]['s'][b] or levels[a]['s'][b].isdigit() and len(levels[a]['s'][b]) < 4:
             b += 1
-        levelLabel = Label(listPopup, text=(str(a + 1)) + '. ' + levels[a]['s'][b])
-        levelLabel.pack()
+        levelList.insert(END, (str(a + 1)) + '. ' + levels[a]['s'][b])
+    levelList.pack(side="left", fill="both")
+    scroll.config(command=levelList.yview)
     inputBox.pack()
     okBtn.pack()
 
@@ -163,12 +168,10 @@ def loadGUI():
 
     selectLevelBtn = Button(root, width=20, text="맵 선택하기", overrelief="solid", command=print_txt)
     restoreBtn = Button(root, width=20, text="맵 복원하기", overrelief="solid", command=restore)
-    exitBtn = Button(root, width=20, text="나가기", overrelief="solid", command=exit)
+    exitBtn = Button(root, width=20, text="나가기", overrelief="solid", command=sys.exit)
     selectLevelBtn.pack()
     restoreBtn.pack()
     exitBtn.pack()
-
-
 
 root = Tk()
 fPath = os.getenv('localappdata') + '\\GeometryDash\\'
